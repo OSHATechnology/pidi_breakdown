@@ -1,7 +1,7 @@
 
 <div class="d-flex position-absolute" style="top:32px;left:32px;">
     <div id="sideNavBreakdown" class="bg-white rounded-1">
-        <a href="#">
+        <a href="/">
             <img src="{{asset('assets/img/toyota-logo.png')}}" alt="">
         </a>
         <ul class="list-group" id="sideNavBreakdownItem">

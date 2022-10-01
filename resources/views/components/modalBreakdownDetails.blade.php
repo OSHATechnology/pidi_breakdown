@@ -1,18 +1,23 @@
     <div class="component-details-popup">
         <div class="popup-backdrop" style="position:absolute;">
             <div class="bg-dark rounded p-4">
-                @if ($data->breakdown_possibility <= 50)
-                <div class="text-center mb-4">
-                    <span style="color: #dddddd">Need Action to repair</span>
+                <div class="d-flex">
+                    @if ($data->breakdown_possibility <= 50)
+                    <div class="text-center mb-4">
+                        <span style="color: #dddddd">Need Action to repair</span>
+                    </div>
+                    @endif
+                    <div class="text-end">
+                        <button type="button" class="btn btn-outline-light m-0 border-0 btn-sm" id="component-details-close"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
-                @endif
 
                 <div class="d-flex align-items-center justify-content-center mb-2">
-                                        <img src="{{asset($data->img)}}" class="" style="width: 120px" alt="">
-                                    </div>
+                    <img src="{{asset($data->img)}}" class="" style="width: 120px" alt="">
+                </div>
                 <div class="d-flex mt-3 align-items-center justify-content-center mb-2">
-                                        <h6 class="text-white" style="">{{$data->nama}}</h6>
-                                    </div>
+                    <h6 class="text-white" style="">{{$data->nama}}</h6>
+                </div>
                 <div class="mt-4">
                     <div class="d-flex flex-column align-items-center justify-content-between text-white">
                         <ul class="font-kecil component-details-list p-0 m-0">
@@ -34,7 +39,7 @@
                             </li>
                             <li>
                                 <span class="text-warning">Breakdown Posibility</span>
-                                <span class="badge {{($data->breakdown_possibility > 50) ? 'bg-success':'bg-danger'}}">{{$data->breakdown_possibility}}%</span>
+                                <span class="badge fw-bold {{($data->breakdown_possibility > 50) ? 'bg-success':'bg-danger'}}" style="font-size: .8rem">{{$data->breakdown_possibility}}%</span>
                             </li>
                         </ul>
                     </div>        

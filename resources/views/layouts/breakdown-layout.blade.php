@@ -37,7 +37,7 @@
             }
 
             #bg-content{
-                background-image: url(@yield('bg-img'));
+                background-image: url("@yield('bg-img')");
                 background-size: @yield('bg-size','cover');
                 background-position: center;
                 background-repeat: no-repeat;
@@ -99,6 +99,10 @@
                 border-radius: 50%;
                 z-index: 55;
             }  
+
+            .circle.bg-danger {
+                background-color: rgba(255, 123, 100, 0.4) !important;
+            }  
             
             .item-engine{
                 position: absolute;
@@ -149,6 +153,11 @@
                 border-left: 1px solid #FFD700;
                 padding-left: 8px;
             }
+            
+            .component-details-popup ul.component-details-list li span:last-child{
+                word-break: break-all;
+                max-width: 5rem;    
+            }
 
             .component-details-popup ul.component-details-list li:last-child{
                 border: 0px;
@@ -166,6 +175,31 @@
                 left: -5px;
                 top: 0px;
             }
+
+            @keyframes animateBeat {
+                0% {
+                    transform: scale(0.8);
+                }
+                5% {
+                    transform: scale(0.9);
+                }
+                10% {
+                    transform: scale(0.8);
+                }
+                15% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(0.8);
+                }
+                100% {
+                    transform: scale(0.8);
+                }
+            }
+
+            .fa-beat{
+                animation: animateBeat 1s infinite;
+            }
         </style>
 
         @stack('css-breakdown')
@@ -181,6 +215,8 @@
         <!-- Spinner End -->
         
         @isset($Engine)
+        @isset($Engine->images)
+        @if (count($Engine->images) > 1)
         <div class="d-flex position-absolute w-100 justify-content-between" style="top:50%;font-size:40px; padding: 0 20px;">
             <a href="/breakdown3" class="text-dark ml-2">
                 <i class="fa fa-arrow-left"></i>
@@ -189,6 +225,8 @@
                 <i class="fa fa-arrow-right"></i>
             </a>
         </div>
+        @endif
+        @endisset
         @endisset
 
 
@@ -233,6 +271,9 @@
                     $('.popup-backdrop').click(function(e){
                         e.stopPropagation();
                     });
+                    $('#component-details-close').click(function(){
+                        $('#detailsKomponen').html("");
+                    });
                 }
             });
         };
@@ -256,24 +297,6 @@
         $('#detailsKomponen').click(function(e){
             $(this).html("");
         });
-
-        $('.item-component .circle').hover(function(){
-            $(this).parent().find('.item-component-box').toggleClass('d-none');
-        });
-
-        $('.item-component .circle').click(function(){
-            const elmDataId = $(this).parent().data('id');
-            getDetailsKomponen(elmDataId);
-            $('#detailsKomponen').removeClass('d-none');
-        })
-        
-        var bodyRect = document.body.getBoundingClientRect();
-        let screenX = screen.width;
-        let screenY = screen.height;
-        
-        // $('#item-1').css({
-        //     zIndex: 22
-        // });
     </script>
     @stack('js-breakdown')
 </body>

@@ -7,6 +7,25 @@ use Illuminate\Http\Request;
 
 class KomponenMesinController extends Controller
 {
+    public function index(Request $request)
+    {
+        try {
+            if ($request->has('mesin_id')) {
+                $KomponenMesin = KomponenMesin::byMesin($request->mesin_id)->get();
+                foreach ($KomponenMesin as $value) {
+                    $value->posisi_x = rand(100, 500);
+                    $value->posisi_y = rand($value->posisi_x, 800);
+                }
+            } else {
+                return $this->renderDetails($request);
+            }
+
+            return $this->sendResponse($KomponenMesin, 'Komponen Mesin retrieved successfully.');
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(), 500);
+        }
+    }
+
     public function show(Request $request)
     {
         $komponen = KomponenMesin::findOrfail($request->id);

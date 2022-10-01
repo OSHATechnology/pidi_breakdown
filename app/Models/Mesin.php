@@ -9,18 +9,22 @@ class Mesin extends Model
 {
     use HasFactory;
 
-    const IMAGEMESINS = [
-        '1' => 'img/mesin/Blok Silinder png/Blok-silinder.png',
-        '2' => 'images/mesin/2.jpg',
-        '3' => 'images/mesin/3.jpg',
-        '4' => 'images/mesin/4.jpg',
-        '5' => 'images/mesin/5.jpg',
-        '6' => 'images/mesin/6.jpg',
-        '7' => 'images/mesin/7.jpg',
-    ];
+    const BREAKDOWNPOSSIABILITYWARNING = 50;
 
     public function komponen()
     {
         return $this->hasMany(KomponenMesin::class, 'id_mesin');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(MesinImage::class, 'mesin_id');
+    }
+
+    public function scopeGetEngineDanger($query, $select = ['*'])
+    {
+        return $query->select($select)->whereHas('komponen', function ($query) {
+            $query->where('breakdown_possibility', '<', self::BREAKDOWNPOSSIABILITYWARNING);
+        });
     }
 }

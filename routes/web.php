@@ -20,10 +20,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index']);
 
 Route::get('/breakdown', [DashboardController::class, 'breakdown']);
-// Route::view('/breakdown', 'components.breakdown');
-Route::view('/breakdown2', 'components.breakdown2');
-Route::view('/breakdown3', 'components.breakdown3');
-Route::view('/breakdown4', 'components.breakdown4');
-Route::view('/breakdown5', 'components.breakdown5');
-Route::view('/breakdown6', 'components.breakdown6');
-Route::view('/breakdown7', 'components.breakdown7');

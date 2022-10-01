@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\KomponenMesin;
 use App\Models\Mesin;
+use App\Models\MesinImage;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

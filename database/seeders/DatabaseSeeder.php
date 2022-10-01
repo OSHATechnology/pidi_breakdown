@@ -23,39 +23,67 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $mesin= [
+        $mesin = [
             [
                 'kode_mesin' => 'machine001',
                 'nama' => 'Cylinder Head',
+                'posisi_x' => 320,
+                'posisi_y' => 220,
+                'item_width' => 800,
+                'item_height' => 320,
             ],
             [
                 'kode_mesin' => 'machine002',
                 'nama' => 'Cylinder Block',
+                'posisi_x' => 420,
+                'posisi_y' => 590,
+                'item_width' => 300,
+                'item_height' => 120,
             ],
             [
                 'kode_mesin' => 'machine003',
                 'nama' => 'Front Engine Compartment',
+                'posisi_x' => 120,
+                'posisi_y' => 590,
+                'item_width' => 290,
+                'item_height' => 120,
             ],
             [
                 'kode_mesin' => 'machine004',
                 'nama' => 'Cooling System',
+                'posisi_x' => 1200,
+                'posisi_y' => 90,
+                'item_width' => 290,
+                'item_height' => 90,
             ],
             [
                 'kode_mesin' => 'machine005',
                 'nama' => 'Charging System',
+                'posisi_x' => 1200,
+                'posisi_y' => 210,
+                'item_width' => 290,
+                'item_height' => 290,
             ],
             [
                 'kode_mesin' => 'machine006',
                 'nama' => 'Lubrication System',
+                'posisi_x' => 1200,
+                'posisi_y' => 510,
+                'item_width' => 290,
+                'item_height' => 290,
             ],
             [
                 'kode_mesin' => 'machine007',
                 'nama' => 'Fuel System',
+                'posisi_x' => 1500,
+                'posisi_y' => 90,
+                'item_width' => 70,
+                'item_height' => 710,
             ],
         ];
         Mesin::insert($mesin);
 
-        $komponen=[
+        $komponen = [
             [
                 'id_mesin' => '1',
                 'kode_komponen' => 'comp001',

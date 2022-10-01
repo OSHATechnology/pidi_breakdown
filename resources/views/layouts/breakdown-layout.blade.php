@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>DASHMIN - Bootstrap Admin Template</title>
+        <title>Breakdown</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -30,6 +30,12 @@
         <link href="{{asset('assets')}}/css/style.css" rel="stylesheet">
 
         <style>
+            main{
+                height: 100vh;
+                width: 100vw;
+                overflow: hidden;
+            }
+
             #bg-content{
                 background-image: url(@yield('bg-img'));
                 background-size: @yield('bg-size','cover');
@@ -38,9 +44,7 @@
                 background-color: @yield('bg-color','rgb(0, 0, 0)')
             }
 
-            main{
-                height: 100vh;
-                width: 100vw;
+            body{
                 overflow: hidden;
             }
 
@@ -53,6 +57,10 @@
                 border: 1px dashed ;
             }
 
+            .bg-gray-transparent{
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+
             .border-color-gold{
                 border-color: #FFD700;
             }
@@ -63,15 +71,24 @@
 
             
             #sideNavBreakdown{
-                position: absolute;
+                /* position: absolute;
                 top: 32px;
-                left: 32px;
-                max-height: 50vh;
+                left: 32px; */
+                /* max-height: 80px; */
                 width: 100%;
-                max-width: 50px;
+                min-width: 80px;
+                max-width: 80px;
+                margin-right: 32px;
+                padding-right: 14px;
+                padding-left: 14px;
             }
+
             #sideNavBreakdown img{
                 max-width: 50px;
+            }
+
+            #sideNavBreakdownItem{
+                margin: 1rem 0 1rem 0;
             }
 
             .circle {
@@ -80,6 +97,12 @@
                 background-color: rgba(255, 255, 255, 0.5);
                 border: 2px solid #FFD700;
                 border-radius: 50%;
+                z-index: 55;
+            }  
+            
+            .item-engine{
+                position: absolute;
+                text-align: center
             }
 
             .item-component{
@@ -99,35 +122,48 @@
             }
 
             .component-details-popup{
-                width: 100%;
-                max-width: 300px
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.15);
+            }
+            .component-details-popup .popup-backdrop div:first-child{
+                min-width: 250px;
+                position: relative;
+                z-index: 88;
             }
 
             .component-details-popup ul.component-details-list{
                width: 100%;
                list-style:none;
-                padding: 0;
+               padding: 0;
             }
 
-            .component-details-popup ul.component-details-list li div:first-child{
+            .component-details-popup ul.component-details-list li{
+               display: flex;
+               justify-content: space-between;
+               margin: 1px 0;
+            }
+
+            .component-details-popup ul.component-details-list li{
                 position: relative;
                 border-left: 1px solid #FFD700;
+                padding-left: 8px;
             }
+
             .component-details-popup ul.component-details-list li:last-child{
                 border: 0px;
                 padding-bottom: 0;
             }
+
             .component-details-popup ul.component-details-list li::before{
                 content: '';
                 width: 10px;
                 height: 10px;
-                background: white;
+                background: #191C24;
                 border: 1px solid #FFD700;
-                box-shadow: 3px 3px 0px #bab5f8;
-                box-shadow: 3px 3px 0px #bab5f8;
                 border-radius: 50%;
                 position: absolute;
-                left: -10px;
+                left: -5px;
                 top: 0px;
             }
         </style>
@@ -144,14 +180,25 @@
         </div>
         <!-- Spinner End -->
         
+        @isset($Engine)
+        <div class="d-flex position-absolute w-100 justify-content-between" style="top:50%;font-size:40px; padding: 0 20px;">
+            <a href="/breakdown3" class="text-dark ml-2">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <a href="/breakdown4" class="text-dark">
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        </div>
+        @endisset
+
+
         <main id="bg-content">
-            @include('components.sidebar-breakdown')
-
-            {{-- button component --}}
             @yield('content')
-
+            @yield('canvas')
         </main>
+
     </div>
+    @include('components.sidebar-breakdown')
     
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -168,25 +215,66 @@
     <script src="{{asset('assets')}}/js/main.js"></script>
     
     <script>
+
+        const getDetailsKomponen = async (idKomponen) => {
+            $.ajax({
+                url: '/api/komponen-mesin?id='+idKomponen,
+                type: 'GET',
+                data: {
+                    id: idKomponen
+                },
+                success: function (data) {
+                    //get xy element
+                    const elementItem = document.getElementById('item-'+idKomponen).getBoundingClientRect();
+                    $('#detailsKomponen').html("");
+                    $('#detailsKomponen').html(data.html);
+                    $('.popup-backdrop').css('top',elementItem.top - 50);
+                    $('.popup-backdrop').css('left',elementItem.left + 60);
+                    $('.popup-backdrop').click(function(e){
+                        e.stopPropagation();
+                    });
+                }
+            });
+        };
+
+        const repairKomponen = async (idKomponen) => {
+            $.ajax({
+                url: '/api/komponen-mesin/repair',
+                type: 'POST',
+                data: {
+                    id: idKomponen
+                },
+                success: function (data) {
+                    //get xy element
+                    console.log(data);
+                }
+            }).then(function(){
+                getDetailsKomponen(idKomponen);
+            });
+        };
+
+        $('#detailsKomponen').click(function(e){
+            $(this).html("");
+        });
+
         $('.item-component .circle').hover(function(){
-            $('.item-component .item-component-box').toggleClass('d-none');
+            $(this).parent().find('.item-component-box').toggleClass('d-none');
+        });
+
+        $('.item-component .circle').click(function(){
+            const elmDataId = $(this).parent().data('id');
+            getDetailsKomponen(elmDataId);
+            $('#detailsKomponen').removeClass('d-none');
         })
         
         var bodyRect = document.body.getBoundingClientRect();
         let screenX = screen.width;
         let screenY = screen.height;
         
-        
-        console.log(bodyRect);
-        $('#item-1').css({
-            top: ((100+screenY) - screenY)+'px',
-            left: ((600+screenX) - screenX)+'px',
-            zIndex: 99
-        })
-        elemRect = $('#item-1')[0].getBoundingClientRect(),
-        offset   = elemRect.top - bodyRect.top;
-
-        console.log(elemRect);
+        // $('#item-1').css({
+        //     zIndex: 22
+        // });
     </script>
+    @stack('js-breakdown')
 </body>
 </html>

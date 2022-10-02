@@ -488,7 +488,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 		scope.update();
 
 	}
-
+	
 	function handleMouseUp( event ) {
 
 		//console.log( 'handleMouseUp' );

@@ -11,20 +11,16 @@
             <img src="/assets/img/engine1-1.png" class="w-100 h-100" alt="">
             <div class="" id="listKomponenMesin">
                 @foreach ($EngineItems as $engineItem)
-                    <div id="item-{{ $engineItem->id }}"
-                        style="top:{{ $engineItem->posisi_x }}px;left:{{ $engineItem->posisi_y }}px;"
-                        data-id="{{ $engineItem->id }}" class="item-component">
-                        <div
-                            class="circle {{ $engineItem->breakdown_possibility <= 50 ? 'bg-danger' : '' }} position-relative">
-                            <div class="item-component-box d-none position-absolute">
-                                <span>{{ $engineItem->nama }}</span>
-                            </div>
-                            @if ($engineItem->breakdown_possibility <= 50)
-                                <span class="text-danger" style="position: absolute; left: 15px;">
-                                    <i class="fas fa-exclamation-triangle fa-beat"></i>
-                                </span>
-                            @endif
+                    <div id="item-{{ $engineItem->id }}" style="top:{{ $engineItem->posisi_x }}px;left:{{ $engineItem->posisi_y }}px;" data-id="{{ $engineItem->id }}" class="item-component">
+                        <div class="circle {{($engineItem->breakdown_possibility > 50 || $engineItem->condition < 50) ? 'bg-danger' : 'bg-success'}}"></div>
+                        <div class="item-component-box d-none">
+                             <span>{{$engineItem->kode_komponen}}</span>
                         </div>
+                        @if ($engineItem->breakdown_possibility > 50 || $engineItem->condition < 50)
+                            <span class="text-danger" style="position: absolute; left: 15px;">
+                                <i class="fas fa-exclamation-triangle fa-beat"></i>
+                            </span>
+                        @endif 
                     </div>
                 @endforeach
             </div>
@@ -52,19 +48,19 @@
                 html +=
                     `
             <div id="item-${item.id}" style="top:${item.posisi_x}px;left:${item.posisi_y}px;" data-id="${item.id}" class="item-component">`;
-                if (item.breakdown_possibility < 50) {
+                if (item.breakdown_possibility > 50 || item.condition < 50) {
                     html += `<div class="circle bg-danger"></div>`;
                 } else {
-                    html += `<div class="circle"></div>`;
+                    html += `<div class="circle bg-success"></div>`;
                 }
                 html += `<div class="item-component-box d-none">
-                    <span>${item.nama}</span>
+                    <span>${item.kode_komponen}</span>
                 </div>`;
 
-                if (item.breakdown_possibility < 50) {
+                if (item.breakdown_possibility > 50 || item.condition < 50) {
                     html += `<span class="text-danger" style="position: absolute;left: 15px;">
-                    <i class="fas fa-exclamation-triangle fa-beat"></i>
-                </span>`;
+                                <i class="fas fa-exclamation-triangle fa-beat"></i>
+                            </span>`;
                 }
                 html += `</div>`;
             })
@@ -72,22 +68,8 @@
             $('#listKomponenMesin').html(html)
         }
 
-        loadEngineComponentItem(`{{ $Engine->id }}`)
-
-
-        function itemComponentClick() {
-            $('.item-component .circle').hover(function() {
-                $(this).parent().find('.item-component-box').toggleClass('d-none');
-            });
-
-            $('.item-component .circle').click(function() {
-                const elmDataId = $(this).parent().data('id');
-                getDetailsKomponen(elmDataId);
-                $('#detailsKomponen').removeClass('d-none');
-            });
-        }
-
-
-        itemComponentClick()
+        setInterval(() => {
+            loadEngineComponentItem(`{{ $Engine->id }}`)
+        }, 5000);
     </script>
 @endpush

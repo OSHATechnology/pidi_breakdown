@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('komponen_mesins', function (Blueprint $table) {
+        Schema::create('komponen_types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_mesin');
-            $table->string('kode_komponen', 30);
-            $table->unsignedBigInteger('id_type')->nullable();
             $table->string('nama', 50);
-            $table->integer('condition');
-            $table->integer('breakdown_possibility');
             $table->timestamps();
-
-            $table->foreign('id_type')->references('id')->on('komponen_types');
         });
     }
 
@@ -34,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('komponen_mesins');
+        Schema::dropIfExists('komponen_types');
     }
 };

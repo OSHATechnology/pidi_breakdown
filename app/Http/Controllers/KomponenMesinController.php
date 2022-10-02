@@ -12,10 +12,6 @@ class KomponenMesinController extends Controller
         try {
             if ($request->has('mesin_id')) {
                 $KomponenMesin = KomponenMesin::byMesin($request->mesin_id)->get();
-                foreach ($KomponenMesin as $value) {
-                    $value->posisi_x = rand(100, 500);
-                    $value->posisi_y = rand($value->posisi_x, 800);
-                }
             } else {
                 return $this->renderDetails($request);
             }
@@ -29,6 +25,8 @@ class KomponenMesinController extends Controller
     public function show(Request $request)
     {
         $komponen = KomponenMesin::findOrfail($request->id);
+        $komponen->condition_parameter = KomponenMesin::getConditionParameter($komponen->condition);
+        $komponen->condition_parameter_color = (isset(KomponenMesin::CONDITIONPARAMETER[$komponen->condition_parameter]['color'])) ? KomponenMesin::CONDITIONPARAMETER[$komponen->condition_parameter]['color'] : '#FFD700';
         return $komponen;
     }
 
@@ -45,7 +43,8 @@ class KomponenMesinController extends Controller
             'id' => 'required',
         ]);
         $komponen = KomponenMesin::findOrfail($request->id);
-        $komponen->breakdown_possibility = 100;
+        $komponen->breakdown_possibility = 0;
+        $komponen->condition = 100;
         $komponen->updated_at = now();
         if ($komponen->save()) {
             return response()->json(['status' => 'success', 'message' => 'Komponen Mesin berhasil direpair']);

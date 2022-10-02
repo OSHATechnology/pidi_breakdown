@@ -9,7 +9,7 @@ class Mesin extends Model
 {
     use HasFactory;
 
-    const BREAKDOWNPOSSIABILITYWARNING = 50;
+    const WARNINGPARAMETER = 50;
 
     public function komponen()
     {
@@ -24,7 +24,8 @@ class Mesin extends Model
     public function scopeGetEngineDanger($query, $select = ['*'])
     {
         return $query->select($select)->whereHas('komponen', function ($query) {
-            $query->where('breakdown_possibility', '<', self::BREAKDOWNPOSSIABILITYWARNING);
+            $query->where('breakdown_possibility', '>', self::WARNINGPARAMETER)
+                ->orWhere('condition', '<', self::WARNINGPARAMETER);
         });
     }
 }

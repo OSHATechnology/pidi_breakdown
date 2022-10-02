@@ -96,7 +96,7 @@
             width: 50px;
             height: 50px;
             background-color: rgba(255, 255, 255, 0.5);
-            border: 2px solid #FFD700;
+            border: 3px solid rgb(61, 61, 61);
             border-radius: 50%;
             z-index: 55;
         }
@@ -159,7 +159,7 @@
 
         .component-details-popup ul.component-details-list li span:last-child {
             word-break: break-all;
-            max-width: 5rem;
+            max-width: 10rem;
         }
 
         .component-details-popup ul.component-details-list li:last-child {
@@ -224,7 +224,7 @@
         </div>
         <!-- Spinner End -->
 
-        @isset($Engine)
+        {{-- @isset($Engine)
             @isset($Engine->images)
                 @if (count($Engine->images) > 1)
                     <div class="d-flex position-absolute w-100 justify-content-between"
@@ -238,14 +238,13 @@
                     </div>
                 @endif
             @endisset
-        @endisset
+        @endisset --}}
 
 
         <main id="bg-content">
             @yield('content')
-            @yield('canvas')
         </main>
-
+        @include('components.part-information-details')
     </div>
     @include('components.sidebar-breakdown')
 
@@ -309,6 +308,20 @@
         $('#detailsKomponen').click(function(e) {
             $(this).html("");
         });
+
+        function itemComponentClick() {
+            $('.item-component .circle').hover(function() {
+                $(this).parent().find('.item-component-box').toggleClass('d-none');
+            });
+
+            $('.item-component .circle').click(function() {
+                const elmDataId = $(this).parent().data('id');
+                getDetailsKomponen(elmDataId);
+                $('#detailsKomponen').removeClass('d-none');
+            });
+        }
+        
+        itemComponentClick();
     </script>
     @stack('js-breakdown')
 </body>

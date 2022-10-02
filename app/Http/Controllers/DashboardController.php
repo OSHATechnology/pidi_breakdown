@@ -27,10 +27,6 @@ class DashboardController extends Controller
     {
         $Engine = Mesin::find($idEngine);
         $EngineItems = KomponenMesin::where('id_mesin', $idEngine)->get();
-        foreach ($EngineItems as $key => $value) {
-            $value->posisi_x = rand(100, 500);
-            $value->posisi_y = rand($value->posisi_x, 800);
-        }
         return view('components.breakdownItem', compact(['EngineItems', 'Engine']));
     }
 }

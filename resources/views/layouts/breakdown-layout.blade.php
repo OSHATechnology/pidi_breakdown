@@ -154,7 +154,7 @@
         .component-details-popup ul.component-details-list li {
             position: relative;
             border-left: 1px solid #FFD700;
-            padding-left: 8px;
+            padding-left: 10px;
         }
 
         .component-details-popup ul.component-details-list li span:last-child {
@@ -169,14 +169,14 @@
 
         .component-details-popup ul.component-details-list li::before {
             content: '';
-            width: 10px;
-            height: 10px;
+            width: 11px;
+            height: 11px;
             background: #191C24;
             border: 1px solid #FFD700;
             border-radius: 50%;
             position: absolute;
-            left: -5px;
-            top: 0px;
+            left: -6px;
+            top: -1px;
         }
 
         @keyframes animateBeat {
@@ -274,7 +274,6 @@
                     //get xy element
                     const elementItem = document.getElementById('item-' + idKomponen)
                         .getBoundingClientRect();
-                        console.log(elementItem);
                     $('#detailsKomponen').html("");
                     $('#detailsKomponen').html(data.html);
                     $('.popup-backdrop').css('top', elementItem.top - 100);

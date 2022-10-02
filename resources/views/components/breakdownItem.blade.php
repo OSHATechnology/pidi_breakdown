@@ -38,6 +38,7 @@
                 success: function(data) {
                     renderEngineItem(data.data);
                     itemComponentClick();
+                    renderEngineTable(data.data);
                 }
             })
         }
@@ -66,6 +67,31 @@
             })
 
             $('#listKomponenMesin').html(html)
+        }
+
+        const renderEngineTable = (data) => {
+
+            const tableDetailsElement = $('#tblInformationDetails');
+            // get the table body
+            const tableBody = tableDetailsElement.find('tbody');
+            let html = '';
+            data.forEach((item, index) => {
+                html += `
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${item.kode_komponen}</td>
+                    `;
+                if (item.breakdown_possibility > 50 || item.condition < 50) {
+                    html += `<td class="badge bg-danger">NG</td>`;
+                } else {
+                    html += `<td class="badge bg-success">OK</td>`;
+                }
+                html += `
+                </tr>
+                `;
+            })
+
+            tableBody.html(html);
         }
 
         setInterval(() => {

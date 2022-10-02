@@ -67,6 +67,9 @@
 
         $(document).ready(function() {
             loadEngineItem();
-        })
+            setInterval(() => {
+                loadEngineItem();
+            }, 5000);
+        });
     </script>
 @endpush

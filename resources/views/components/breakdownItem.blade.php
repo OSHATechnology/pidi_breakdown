@@ -1,7 +1,7 @@
 @extends('layouts.breakdown-layout')
-@isset($Engine->images)
+{{-- @isset($Engine->images)
     @section('bg-img', count($Engine->images) > 0 ? asset($Engine->images[0]->img) : asset('assets/img/toyota-logo.png'))
-@endisset
+@endisset --}}
 @section('bg-size', 'inherit')
 @section('bg-color', '#777777')
 
@@ -9,7 +9,6 @@
     <div class="d-flex justify-content-center position-relative w-100 h-100">
         <div class="machine-container">
             <img src="/assets/img/engine1-1.png" class="w-100 h-100" alt="">
-            <div id="detailsKomponen"></div>
             <div class="" id="listKomponenMesin">
                 @foreach ($EngineItems as $engineItem)
                     <div id="item-{{ $engineItem->id }}"
@@ -31,6 +30,7 @@
             </div>
         </div>
     </div>
+    <div id="detailsKomponen"></div>
 @endsection
 
 @push('js-breakdown')

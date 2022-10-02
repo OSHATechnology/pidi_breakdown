@@ -275,10 +275,11 @@
                     //get xy element
                     const elementItem = document.getElementById('item-' + idKomponen)
                         .getBoundingClientRect();
+                        console.log(elementItem);
                     $('#detailsKomponen').html("");
                     $('#detailsKomponen').html(data.html);
-                    $('.popup-backdrop').css('top', elementItem.top - 200);
-                    $('.popup-backdrop').css('left', (elementItem.left - 916) + 70);
+                    $('.popup-backdrop').css('top', elementItem.top - 100);
+                    $('.popup-backdrop').css('left',elementItem.left+70);
                     $('.popup-backdrop').click(function(e) {
                         e.stopPropagation();
                     });

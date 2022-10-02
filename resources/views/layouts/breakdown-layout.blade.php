@@ -274,10 +274,22 @@
                     //get xy element
                     const elementItem = document.getElementById('item-' + idKomponen)
                         .getBoundingClientRect();
+                    
                     $('#detailsKomponen').html("");
                     $('#detailsKomponen').html(data.html);
-                    $('.popup-backdrop').css('top', elementItem.top - 100);
-                    $('.popup-backdrop').css('left',elementItem.left+70);
+                    const rectPopup = $('.popup-backdrop').get(0).getBoundingClientRect();
+                    if((elementItem.x + rectPopup.width) > $(window).width()){
+                        $('.popup-backdrop').css('right', $(window).width() - elementItem.x + 20);
+                    }else{
+                        $('.popup-backdrop').css('left',elementItem.left + 70);
+                    }
+
+                    if((elementItem.y + rectPopup.height) > $(window).height()){
+                        $('.popup-backdrop').css('bottom', $(window).height() - elementItem.y - 100 );
+                    }else{
+                        $('.popup-backdrop').css('top',elementItem.top - 100);
+                    }
+
                     $('.popup-backdrop').click(function(e) {
                         e.stopPropagation();
                     });
